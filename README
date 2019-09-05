@@ -42,21 +42,19 @@ Notes
 
 
 Prerequisites
-   PBS Professional deployment on a non CMU Management Node
+   PBS Professional deployment on a non HPCM Admin Node
    - PBS Professional Server/Scheduler is installed on the non CMU Management Node
    - PBS Professional Client commands are installed on the CMU Management Node.
    - PBS Professional MOM is installed in HPCM image_groups (os images).
-   - Passwordless SSH from Node running PBS Professional server to Node running HPCM.
-   - Passwordless SSH must be configured on all nodes for users.
+   - Passwordless SSH from Node running PBS to Node running HPCM for root only. This is required for provisioing.
 
    PBS Professional deployment on a CMU Management Node
    - PBS Professional Server/Scheduler is installed on the CMU Management Node
    - PBS Professional MOM is installed in HPCM image_groups (os images)
-   - Passwordless SSH must be configured on all nodes for users.
 
    High Availability deployment
    - Refer PBS Professional Admin Guide on how to setup HA.
-   - /etc/pbs.conf file on all nodes should be the consistent.
+   - /etc/pbs.conf file on all nodes should be the consistent. (be specific here)
 
 
 Installation Instructions
@@ -94,8 +92,11 @@ cat ../etc/cmu_custom_menu.orig hpcm_pbspro_connector/etc/PBS_Specific_hpcm_cust
 
 
 Configuration
-   You can optionally add managers to be able to make changes to the configuration by adding user to managers list as:
-   - qmgr -c "set server managers += <site_user_account>"
+   - By default, High Availability is not configured. Hence make sure Section for NON High Availability Configuration in cmu_custom_menu file is uncommented and Section for High Availability Configuration is commented out.
+   If High Availability is configured, then comment out Section for NON High Availability Configuration in cmu_custom_menu file adn uncomment Section for High Availability Configuration.
+
+   - You can optionally add managers to be able to make changes to the configuration by adding user to managers list as:
+     qmgr -c "set server managers += <site_user_account>"
 
 
 User Instructions
@@ -111,3 +112,4 @@ User Instructions
 
    - To view available kernal on the node, run pbsnodes -a command.
      As part of automatic configuration of HPCM PBS Professional Connector, kernal list is updated on the nodes in resources_available.kernal.
+
