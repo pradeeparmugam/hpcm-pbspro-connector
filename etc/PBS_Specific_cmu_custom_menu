@@ -75,9 +75,9 @@ SERVER;HPCM PBS Professional Connector|Start PBS MOM;/opt/clmgr/contrib/hpcm_pbs
 # Configure PBS Server and Scheduler config files
 # The following keywords have been deprecated as of 7.2: CMU_GUI_IP_ADDRESS and CMU_GUI_DISPLAY_NUMBER. Thus why the SERVER lines are commented out
 # It is recommended to begin using TERMINAL
-TERMINAL;HPCM PBS Professional Connector|Configure PBS Server (qmgr);"/opt/pbs/bin/qmgr -c 'print server'; /opt/pbs/bin/qmgr"
-TERMINAL;HPCM PBS Professional Connector|Configure PBS Custom Resources (qmgr);"/opt/pbs/bin/qmgr -c 'print resource'; /opt/pbs/bin/qmgr""
-TERMINAL;HPCM PBS Professional Connector|Configure PBS Scheduler (sched_config);"vi /var/spool/PBS/sched_priv/sched_config ; echo \"Scheduler re-reading sched_config\" ; kill -HUP `cat /var/spool/PBS/sched_priv/sched.lock` ; echo \"Done\""
+TERMINAL;HPCM PBS Professional Connector|Configure PBS Server (qmgr);/opt/pbs/bin/qmgr -c 'print server'; /opt/pbs/bin/qmgr
+TERMINAL;HPCM PBS Professional Connector|Configure PBS Custom Resources (qmgr);/opt/pbs/bin/qmgr -c 'print resource'; /opt/pbs/bin/qmgr
+TERMINAL;HPCM PBS Professional Connector|Configure PBS Scheduler (sched_config);server=`/opt/clmgr/contrib/hpcm_pbspro_connector/bin/hpcm_pbs_sched`; echo $server; if [ "$server" == "undefined" ] ; then echo \"PBS server not found\"; else source /etc/pbs.conf; scp $server:$PBS_HOME/sched_priv/sched_config /tmp>/dev/null; vi /tmp/sched_config; echo \"Scheduler re-reading sched_config\" ; scp /tmp/sched_config $server:$PBS_HOME/sched_priv/sched_config >/dev/null; ssh $server kill -HUP \`cat $PBS_HOME/sched_priv/sched.lock\` ; echo \"Done\" ; fi
 #
 # Section for NON High Availability Configuration
 #

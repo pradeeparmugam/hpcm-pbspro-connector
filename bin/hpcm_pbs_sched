@@ -42,20 +42,30 @@
 #  2) Script is executed on the HPCM Management Node.
 
 # Purpose:
-# Show the HPCM Administrator the active reservations on the cluster
-# otherwise, say there is no reservations in the system
 
 # Source in PBS specific environment variables from pbs.conf
 if [ -f /etc/pbs.conf ]; then
-    . /etc/pbs.conf
+   . /etc/pbs.conf
 else
-    echo "Unable to find /etc/pbs.conf"
-    exit 1
+   echo "Unable to find /etc/pbs.conf"
+   exit 1
 fi
 
-pbs_rstat_out=`${PBS_EXEC}/bin/pbs_rstat`
-if [ -z "$pbs_rstat_out" ]; then
-    echo "No PBS Reservations"
+if [ -n "$PBS_PRIMARY" ]; then
+    ping -c 3 $PBS_PRIMARY > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+       echo $PBS_PRIMARY
+       exit 0
+    fi
+    ping -c 3 $PBS_SECONDARY > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+       echo $PBS_SECONDARY
+       exit 0
+    fi
 else
-    ${PBS_EXEC}/bin/pbs_rstat
+    echo $PBS_SERVER
+    exit 0
 fi
+
+echo "undefined"
+

@@ -123,11 +123,11 @@ else
     else
         case $1 in
             *stop)       echo "Stopping PBS Server/Scheduler on ${PBS_SERVER}"
-                         ssh ${PBS_SERVER} /etc/init.d/pbs stop
+                         ssh ${PBS_SERVER} /etc/init.d/pbs stop ;;
             *restart)    echo "Restart PBS Server/Scheduler on ${PBS_SERVER}"
-                         ssh ${PBS_SERVER} /etc/init.d/pbs restart
+                         ssh ${PBS_SERVER} /etc/init.d/pbs restart ;;
             *start)      echo "Starting PBS Server/Scheduler on ${PBS_SERVER}"
-                         ssh ${PBS_SERVER} /etc/init.d/pbs start
+                         ssh ${PBS_SERVER} /etc/init.d/pbs start ;;
         esac
     fi
 fi

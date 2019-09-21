@@ -62,12 +62,12 @@ CMU_PATH=/opt/clmgr/bin
 CMU_SUBMIT_EXTENDED_METRIC=${CMU_PATH}/cmu_submit_extended_metrics
 
 declare -A node_state
-
+mkdir -p ${CMU_PBSPRO_CONNECTOR}/tmp/
 state_file=${CMU_PBSPRO_CONNECTOR}/tmp/extended_metric_node_state
 
 rm ${state_file}
 
-state=`${PBS_EXEC}/bin/pbsnodes -a | grep -e "^[[:alnum:]]" -e state | sed '1~2 {N;s/\n/ /g}' | awk '{print $1";"$4}'`
+state=`${PBS_EXEC}/bin/pbsnodes -a | grep -e "^[[:alnum:]]" -e "state " | sed '1~2 {N;s/\n/ /g}' | awk '{print $1";"$4}'`
 
 # Iterate through the registered PBS Professional nodes. associate
 # nodes to the known node_state
